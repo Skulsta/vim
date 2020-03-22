@@ -58,5 +58,3 @@ let g:ragtag_global_maps = 1
 
 noremap <Leader>l :update<CR>
 autocmd FileType python map <buffer> <leader>l :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
-
-set belloff=all
