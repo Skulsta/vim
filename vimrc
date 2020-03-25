@@ -41,7 +41,9 @@ augroup vimrcEx
 augroup END
 
 " Add optional packages.
-"
+" For activating netrw
+filetype plugin on
+
 " The matchit plugin makes the % command work better, but it is not backwards
 " compatible.
 " The ! means the package won't be loaded right away but when plugins are
@@ -50,13 +52,37 @@ if has('syntax') && has('eval')
   packadd! matchit
 endif
 
+" Quick way to change vimrc
 let mapleader = ","
 map <leader>vimrc :tabe ~/.vim/vimrc<cr>
 autocmd bufwritepost vimrc source ~/.vim/vimrc
 
+" For ragtag, might not be needed
 let g:ragtag_global_maps = 1
 
+" Faster save
 noremap <Leader>l :update<CR>
+
+" Save and run python file
 autocmd FileType python map <buffer> <leader>l :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 
+" Get rid of annoying bell sound
 set belloff=all
+
+" Hide the swap files from project directories
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+
+set number
+
+" Tabs and spaces
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+" Increase the commads history from 20
+set history=200
+
+" Shortcut for getting the current directory
+cnoremap <expr> %% getcmdtype() == ':' ? expand(%:h').'/' : '%%'
