@@ -85,4 +85,4 @@ set expandtab
 set history=200
 
 " Shortcut for getting the current directory
-cnoremap <expr> %% getcmdtype() == ':' ? expand(%:h').'/' : '%%'
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
