@@ -1,4 +1,12 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =2
-let g:netrw_dirhist_2='/Users/skulstad/projects/devtest'
-let g:netrw_dirhist_1='/Users/skulstad/projects/rand'
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/Users/skulstad/projects/react/tic/src'
+let g:netrw_dirhist_2='/Users/skulstad/projects/new_style'
+let g:netrw_dirhist_1='/Users/skulstad/Documents/school/master thesis/survey'
+let g:netrw_dirhist_0='/Users/skulstad/projects/stilyapp/stilyapp/src/views'
+let g:netrw_dirhist_9='/Users/skulstad/projects/stilyapp/stilyapp/src'
+let g:netrw_dirhist_8='/Users/skulstad/projects/stilyapp/stilyapp'
+let g:netrw_dirhist_7='/Users/skulstad/.vim'
+let g:netrw_dirhist_6='/Users/skulstad/projects/new_style'
+let g:netrw_dirhist_5='/Users/skulstad/projects'
+let g:netrw_dirhist_4='/Users/skulstad/projects/stilyapp'
