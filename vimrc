@@ -1,15 +1,13 @@
 " Get vim defaults
 source $VIMRUNTIME/defaults.vim
 
-" Theme
- syntax enable
-
 " for vim 8
  if (has("termguicolors"))
   set termguicolors
  endif
 
-colorscheme OceanicNext
+" colorscheme OceanicNext
+autocmd vimenter * colorscheme gruvbox
 
 " Get rid of annoying bell sound
 set belloff=all
@@ -25,6 +23,9 @@ set tabstop=2
 set expandtab
 set number
 
+" Format with prettier/beautify
+nnoremap <F5> mzgggqG`z
+
 " Shortcut for getting the current directoy
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:p:h').'/' : '%%'
 
@@ -34,43 +35,36 @@ autocmd FileType javascript map <buffer> <leader>' :w<CR>:exec '!node %' shelles
 
 " Indexing files with ctags
 nnoremap <leader>t :!ctags -R --exclude=.git --exclude=node_modules --exclude=test<CR>
-
-" Format with prettier/beautify
-nnoremap <F5> mzgggqG`z
+nnoremap <leader>] :Explore<CR>
 
 " Used for finding files more easily
 set path+=src/**
 set path+=public/**
 set path=$PWD/**
 
-" FORMATTERS
-au FileType javascript setlocal formatprg=prettier
-au FileType javascript.jsx setlocal formatprg=prettier
-au FileType typescript setlocal formatprg=prettier\ --parser\ typescript
-au FileType html setlocal formatprg=js-beautify\ --type\ html
-au FileType scss setlocal formatprg=prettier\ --parser\ css
-au FileType css setlocal formatprg=prettier\ --parser\ css
+" Plug for installing Conquer of Completion
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Initialize plugin system
+call plug#end()
 
 """"""""""ALE"""""""""" 
-"ALE for asyncronous linting
-let g:ale_linters = {
-\   'python': ['flake8', 'pylint'],
-\   'javascript': ['eslint'],
-\   'vue': ['eslint']
+" Fix files with prettier, and then ESLint.
+let g:ale_fixers = {
+\   'javascript': ['prettier', 'eslint'],
+\   'css': ['prettier'],
 \}
 
-let g:ale_fixers = {
-  \    'javascript': ['eslint'],
-  \    'typescript': ['prettier', 'eslint'],
-  \    'vue': ['eslint'],
-  \    'scss': ['prettier'],
-  \    'html': ['prettier'],
-\}
+" Fix files automatically on save
 let g:ale_fix_on_save = 1
 
 " Navigate to next/previous linting error
 nnoremap ]r :ALENextWrap<CR>     " move to the next ALE warning / error
 nnoremap [r :ALEPreviousWrap<CR> " move to the previous ALE warning / error
+nnoremap <leader>f :ALEFix<CR>
 
 " Put these lines at the very end of your vimrc file.
 
