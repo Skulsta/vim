@@ -37,6 +37,9 @@ autocmd FileType javascript map <buffer> <leader>' :w<CR>:exec '!node %' shelles
 nnoremap <leader>t :!ctags -R --exclude=.git --exclude=node_modules --exclude=test<CR>
 nnoremap <leader>] :Explore<CR>
 
+" Copy error message to clipboard
+nnoremap <leader>e :let @+ = v:statusmsg<CR>
+
 " Used for finding files more easily
 set path+=src/**
 set path+=public/**
