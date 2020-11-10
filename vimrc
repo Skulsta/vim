@@ -1,13 +1,11 @@
 " Get vim defaults
 source $VIMRUNTIME/defaults.vim
 
-" for vim 8
- if (has("termguicolors"))
+" Color options
+" Important!!
+if has('termguicolors')
   set termguicolors
- endif
-
-" colorscheme OceanicNext
-autocmd vimenter * colorscheme gruvbox
+endif
 
 " Get rid of annoying bell sound
 set belloff=all
@@ -17,17 +15,11 @@ set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 
-set shiftwidth=2
-set softtabstop=2
 set tabstop=2
+set shiftwidth=2
 set expandtab
 set number
-
-" Format with prettier/beautify
-nnoremap <F5> mzgggqG`z
-
-" Shortcut for getting the current directoy
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:p:h').'/' : '%%'
+set autoread
 
 " Saving and executing python and javascript files
 autocmd FileType python map <buffer> <leader>' :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
@@ -35,33 +27,57 @@ autocmd FileType javascript map <buffer> <leader>' :w<CR>:exec '!node %' shelles
 
 " Indexing files with ctags
 nnoremap <leader>t :!ctags -R --exclude=.git --exclude=node_modules --exclude=test<CR>
-nnoremap <leader>] :Explore<CR>
 
-" Copy error message to clipboard
-nnoremap <leader>e :let @+ = v:statusmsg<CR>
+" Shortcuts
+nnoremap <leader>] :Explore<CR>
+nnoremap <leader>g :Ag 
+inoremap aa å
+
+"Switch between different windows by their direction`
+no <C-j> <C-w>j| "switching to below window
+no <C-k> <C-w>k| "switching to above window
+no <C-l> <C-w>l| "switching to right window
+no <C-h> <C-w>h| "switching to left window
+
+"Yank to Mac clipboard
+set clipboard=unnamed
 
 " Used for finding files more easily
 set path+=src/**
 set path+=public/**
 set path=$PWD/**
 
-" Plug for installing Conquer of Completion
+" Plugins
 call plug#begin('~/.vim/plugged')
 
-" Make sure you use single quotes
+Plug 'sainnhe/gruvbox-material'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'dense-analysis/ale'
+
+Plug 'SirVer/ultisnips'
+Plug 'mlaursen/vim-react-snippets'
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+Plug 'vim-scripts/loremipsum'
+
+Plug 'cakebaker/scss-syntax.vim'
+
+" Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'sbdchd/neoformat'
+
+Plug 'tpope/vim-fugitive'
 
 " Initialize plugin system
 call plug#end()
 
-""""""""""ALE"""""""""" 
-" Fix files with prettier, and then ESLint.
-let g:ale_fixers = {
-\   'javascript': ['prettier', 'eslint'],
-\   'css': ['prettier'],
-\}
+colorscheme gruvbox-material
 
-" Fix files automatically on save
+""""""""""ALE"""""""""" 
+let g:ale_fixers = ['prettier', 'eslint']
 let g:ale_fix_on_save = 1
 
 " Navigate to next/previous linting error
