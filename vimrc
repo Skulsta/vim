@@ -1,20 +1,17 @@
 set nocompatible " be iMproved, required
 filetype off     " required
+colorscheme sourcerer
 
 " Keep Plug commands between plug#begin() and plug#end().
 call plug#begin()
 
 Plug 'airblade/vim-gitgutter'     " Show git diff of lines edited
 Plug 'tpope/vim-fugitive'         " :Gblame
-
-Plug 'tpope/vim-endwise'          " Autocomplete end after a do
-Plug 'mileszs/ack.vim'            " Use ack in Vim
+Plug 'tomtom/tcomment_vim'        " Commenting out code
 
 Plug 'pangloss/vim-javascript'    " JavaScript support
 Plug 'leafgarland/typescript-vim' " TypeScript syntax
 Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
-Plug 'jparise/vim-graphql'        " GraphQL syntax
-Plug 'styled-components/vim-styled-components'
 
 Plug 'vim-airline/vim-airline'    " Vim powerline
 
@@ -27,8 +24,15 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()              " required
 filetype plugin indent on    " required
 
-" Leader key is SPACE, I find it the best
 let mapleader = " "
+
+" Use coc for going to places
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Look and Feel settings
 syntax enable
@@ -65,16 +69,8 @@ set smartindent
 set foldmethod=syntax
 set foldlevel=99
 
-" Enable folding with the z key
-nmap z za
-
 " Disable all bells and whistles
 set noerrorbells visualbell t_vb=
-
-" Ack tricks
-let g:ackprg = 'ag --vimgrep'
-nmap <leader>a :Ack! ""<Left>
-nmap <leader>A :Ack! "\b<cword>\b"<CR>
 
 " Tab Options
 set shiftwidth=2
@@ -113,10 +109,6 @@ set backspace=indent,eol,start
 " +++ Shortcuts +++
 " Open Buffer
 nnoremap <silent><leader>l :Buffers<CR>
-" Open test file for a current file
-nnoremap <silent><leader>s :A<CR>
-" Open test file for a current file in a vertical window
-nnoremap <silent><leader>v :AV<CR>
 " Vertically split screen
 nnoremap <silent><leader>\ :vs<CR>
 " Split screen
@@ -131,19 +123,12 @@ nnoremap <silent><leader>2 :e ~/.vim/vimrc<CR>
 " Source Vim configuration file and install plugins
 nnoremap <silent><leader>1 :source ~/.vim/vimrc \| :PlugInstall<CR>
 
-" Toggle relative line numbers
-nnoremap <leader>rn :set relativenumber!<cr>
-
 " If fzf installed using git
 set rtp+=~/.fzf
 " Map fzf search to CTRL P
 nnoremap <C-p> :GFiles<Cr>
 " Map fzf + ag search to CTRL G
 nnoremap <C-g> :Ag<Cr>
-
-" vim-test shortcut for running tests
-nnoremap <silent><leader>; :TestNearest<CR>
-nnoremap <silent><leader>' :TestFile<CR>
 
 " Extra <CR> is for disabling /"Press ENTER or type command to continue/"
 nnoremap <silent><leader>e :Exp<CR><CR>
@@ -157,30 +142,28 @@ nnoremap <c-l> <c-w>l
 " CoC extensions
 let g:coc_global_extensions = ['coc-solargraph', 'coc-tsserver', 'coc-json', 'coc-vetur']
 
-" Go to errors
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
 " Add CoC Prettier if prettier is installed
 if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
   let g:coc_global_extensions += ['coc-prettier']
 endif
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
+nnoremap <silent><leader>p :CocCommand prettier.formatFile<CR>
 
 " Add CoC ESLint if ESLint is installed
 if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
   let g:coc_global_extensions += ['coc-eslint']
 endif
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
 let g:fugitive_pty = 0
+
+command! -nargs=* Zet call zettel#edit(<f-args>)
+
+" Show current path in the status line
+set statusline+=%F
+
+" Copy error messages
+nnoremap <silent><leader>x :put =trim(execute(input(':', '', 'command')))<CR>
 
